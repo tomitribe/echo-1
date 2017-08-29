@@ -18,7 +18,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Resources Security</web-resource-name>
-            <url-pattern>/rest/*</url-pattern>
+            <url-pattern>/*</url-pattern>
             <http-method>GET</http-method>
         </web-resource-collection>
         <auth-constraint>
