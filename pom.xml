@@ -1,6 +1,28 @@
+<!--
+  ~  Tomitribe Confidential
+  ~
+  ~  Copyright Tomitribe Corporation. 2017
+  ~
+  ~  The source code for this program is not published or otherwise divested
+  ~  of its trade secrets, irrespective of what has been deposited with the
+  ~  U.S. Copyright Office.
+  -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.tomitribe</groupId>
+    <artifactId>tomitribe-parent</artifactId>
+    <version>8</version>
+  </parent>
+
+  <scm>
+    <connection>scm:git:https://github.com/tomitribe/echo-1</connection>
+    <developerConnection>scm:git:https://github.com/tomitribe/echo-1</developerConnection>
+    <url>scm:git:https://github.com/tomitribe/echo-1</url>
+    <tag>HEAD</tag>
+  </scm>
 
   <groupId>org.supertribe.sample.echo</groupId>
   <artifactId>echo</artifactId>
@@ -12,38 +34,6 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>3.1.0</version>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.tomee.maven</groupId>
-        <artifactId>tomee-maven-plugin</artifactId>
-        <version>7.0.3</version>
-        <configuration>
-          <tomeeClassifier>webprofile</tomeeClassifier>
-          <context>echo</context>
-          <tomeeHttpPort>9080</tomeeHttpPort>
-          <tomeeAjpPort>9009</tomeeAjpPort>
-          <tomeeShutdownPort>9005</tomeeShutdownPort>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 
   <dependencies>
     <dependency>
@@ -58,4 +48,181 @@
       <version>1.2.2</version>
     </dependency>
   </dependencies>
+
+  <repositories>
+    <repository>
+      <id>tomitribe-all</id>
+      <name>Tomitribe Repository</name>
+      <url>https://repository.tomitribe.com/content/groups/tomitribe/</url>
+    </repository>
+    <repository>
+      <id>tomitribe.snapshots.https</id>
+      <name>Tomitribe Development Snapshot Repository</name>
+      <url>https://repository.tomitribe.com/content/repositories/snapshots-tomitribe</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
+  </repositories>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>false</filtering>
+      </resource>
+    </resources>
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+        <filtering>true</filtering>
+      </testResource>
+    </testResources>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.tomee.maven</groupId>
+        <artifactId>tomee-maven-plugin</artifactId>
+        <version>7.0.3</version>
+        <configuration>
+          <tomeeClassifier>webprofile</tomeeClassifier>
+          <context>echo</context>
+          <tomeeHttpPort>9080</tomeeHttpPort>
+          <tomeeAjpPort>9009</tomeeAjpPort>
+          <tomeeShutdownPort>9005</tomeeShutdownPort>
+          <warFile>target/echo.war</warFile>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.6</version>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+          <warName>${project.artifactId}</warName>
+          <warSourceExcludes>**/web-*.xml,**/context.xml</warSourceExcludes>
+        </configuration>
+        <executions>
+          <execution>
+            <id>basic</id>
+            <phase>package</phase>
+            <goals>
+              <goal>war</goal>
+            </goals>
+            <configuration>
+              <primaryArtifact>false</primaryArtifact>
+              <classifier>basic</classifier>
+              <webXml>src/main/webapp/WEB-INF/web-basic.xml</webXml>
+              <warSourceExcludes>**/web-*.xml,**/context.xml</warSourceExcludes>
+              <webappDirectory>target/${project.artifactId}-${project.version}-basic</webappDirectory>
+              <webResources>
+                <resource>
+                  <directory>src/main/webapp/META-INF/basic</directory>
+                  <targetPath>META-INF</targetPath>
+                  <includes>
+                    <include>**/context.xml</include>
+                  </includes>
+                </resource>
+              </webResources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>both</id>
+            <phase>package</phase>
+            <goals>
+              <goal>war</goal>
+            </goals>
+            <configuration>
+              <primaryArtifact>false</primaryArtifact>
+              <classifier>both</classifier>
+              <webXml>src/main/webapp/WEB-INF/web-signature.xml</webXml>
+              <warSourceExcludes>**/web-*.xml,**/context.xml</warSourceExcludes>
+              <webappDirectory>target/${project.artifactId}-${project.version}-both</webappDirectory>
+              <webResources>
+                <resource>
+                  <directory>src/main/webapp/META-INF/both</directory>
+                  <targetPath>META-INF</targetPath>
+                  <includes>
+                    <include>**/context.xml</include>
+                  </includes>
+                </resource>
+              </webResources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>signature</id>
+            <phase>package</phase>
+            <goals>
+              <goal>war</goal>
+            </goals>
+            <configuration>
+              <primaryArtifact>false</primaryArtifact>
+              <classifier>signature</classifier>
+              <webXml>src/main/webapp/WEB-INF/web-signature.xml</webXml>
+              <warSourceExcludes>**/web-*.xml,**/context.xml</warSourceExcludes>
+              <webappDirectory>target/${project.artifactId}-${project.version}-signature</webappDirectory>
+              <webResources>
+                <resource>
+                  <directory>src/main/webapp/META-INF/signature</directory>
+                  <targetPath>META-INF</targetPath>
+                  <includes>
+                    <include>**/context.xml</include>
+                  </includes>
+                </resource>
+              </webResources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>oauth</id>
+            <phase>package</phase>
+            <goals>
+              <goal>war</goal>
+            </goals>
+            <configuration>
+              <primaryArtifact>false</primaryArtifact>
+              <classifier>oauth</classifier>
+              <webXml>src/main/webapp/WEB-INF/web-oauth.xml</webXml>
+              <warSourceExcludes>**/web-*.xml,**/context.xml</warSourceExcludes>
+              <webappDirectory>target/${project.artifactId}-${project.version}-oauth</webappDirectory>
+              <webResources>
+                <resource>
+                  <directory>src/main/webapp/META-INF/oauth</directory>
+                  <targetPath>META-INF</targetPath>
+                  <includes>
+                    <include>**/context.xml</include>
+                  </includes>
+                </resource>
+              </webResources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <distributionManagement>
+    <repository>
+      <id>tomitribe.releases.https</id>
+      <name>Tomitribe Release Distribution Repository</name>
+      <url>https://repository.tomitribe.com/service/local/staging/deploy/maven2</url>
+    </repository>
+
+    <snapshotRepository>
+      <id>tomitribe.snapshots.https</id>
+      <name>Tomitribe Development Snapshot Repository</name>
+      <url>https://repository.tomitribe.com/content/repositories/snapshots-tomitribe</url>
+    </snapshotRepository>
+  </distributionManagement>
 </project>

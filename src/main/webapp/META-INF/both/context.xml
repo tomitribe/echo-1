@@ -1,0 +1,21 @@
+<!--
+  ~  Tomitribe Confidential
+  ~
+  ~  Copyright Tomitribe Corporation. 2017
+  ~
+  ~  The source code for this program is not published or otherwise divested
+  ~  of its trade secrets, irrespective of what has been deposited with the
+  ~  U.S. Copyright Office.
+  -->
+<Context PreemptiveAuthentication="false">
+    <Valve className="com.tomitribe.tribestream.security.date.DateValidationValve"
+           requireHeader="false"
+           validRange="1 hour"/>
+
+    <Valve className="com.tomitribe.tribestream.security.signatures.SignatureAuthenticator"
+           algorithm="hmac-sha256" debug="false"
+           headers="(request-target) date digest"/>
+
+    <Valve className="com.tomitribe.tribestream.security.oauth2.OAuth2JWTBearerTokenAuthenticator"
+           required="false" authHeader="bearer" prefix=""/>
+</Context>
