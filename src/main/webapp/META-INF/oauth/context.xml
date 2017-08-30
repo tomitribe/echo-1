@@ -9,6 +9,6 @@
   -->
 <Context PreemptiveAuthentication="false">
 
-  <Valve className="com.tomitribe.tribestream.security.TribestreamSecurityValve" profiles="starbucks-oauth-2-0-internal"/>
+  <Valve className="com.tomitribe.tribestream.security.TribestreamSecurityValve" profiles="movieappbearer"/>
 
 </Context>

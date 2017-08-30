@@ -40,6 +40,7 @@
           <tomeeHttpPort>9080</tomeeHttpPort>
           <tomeeAjpPort>9009</tomeeAjpPort>
           <tomeeShutdownPort>9005</tomeeShutdownPort>
+          <warFile>target/echo.war</warFile>
         </configuration>
       </plugin>
 
@@ -52,6 +53,16 @@
           <warSourceExcludes>**/web-*.xml,**/context.xml</warSourceExcludes>
         </configuration>
         <executions>
+          <execution>
+            <id>echo</id>
+            <phase>package</phase>
+            <goals>
+              <goal>war</goal>
+            </goals>
+            <configuration>
+              <primaryArtifact>true</primaryArtifact>
+            </configuration>
+          </execution>
           <execution>
             <id>sbux_storedev</id>
             <phase>package</phase>
