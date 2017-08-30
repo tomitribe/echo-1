@@ -1,3 +1,12 @@
+/*
+ *  Tomitribe Confidential
+ *
+ *  Copyright Tomitribe Corporation. 2017
+ *
+ *  The source code for this program is not published or otherwise divested
+ *  of its trade secrets, irrespective of what has been deposited with the
+ *  U.S. Copyright Office.
+ */
 package org.supertribe.sample.echo;
 
 import org.tomitribe.util.IO;
@@ -51,7 +60,9 @@ public class RequestFilter implements Filter {
                 final String query = httpServletRequest.getQueryString();
 
                 out.printf("%s %s%n", httpServletRequest.getMethod(), httpServletRequest.getRequestURI());
-                if (query != null) { out.printf("[query: %s]%n", query); }
+                if (query != null) {
+                    out.printf("[query: %s]%n", query);
+                }
 
                 final Enumeration<String> headerNames = httpServletRequest.getHeaderNames();
                 while (headerNames.hasMoreElements()) {

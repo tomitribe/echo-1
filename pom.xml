@@ -1,3 +1,12 @@
+<!--
+  ~  Tomitribe Confidential
+  ~
+  ~  Copyright Tomitribe Corporation. 2017
+  ~
+  ~  The source code for this program is not published or otherwise divested
+  ~  of its trade secrets, irrespective of what has been deposited with the
+  ~  U.S. Copyright Office.
+  -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -74,6 +83,7 @@
             </goals>
             <configuration>
               <primaryArtifact>true</primaryArtifact>
+              <warSourceExcludes>**/web-*.xml,**/context.xml,**/RequestFilter</warSourceExcludes>
             </configuration>
           </execution>
           <execution>
@@ -442,4 +452,37 @@
       <version>1.2.2</version>
     </dependency>
   </dependencies>
+
+  <repositories>
+    <repository>
+      <id>tomitribe-all</id>
+      <name>Tomitribe Repository</name>
+      <url>https://repository.tomitribe.com/content/groups/tomitribe/</url>
+    </repository>
+    <repository>
+      <id>tomitribe.snapshots.https</id>
+      <name>Tomitribe Development Snapshot Repository</name>
+      <url>https://repository.tomitribe.com/content/repositories/snapshots-tomitribe</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
+  </repositories>
+
+  <distributionManagement>
+    <repository>
+      <id>tomitribe.releases.https</id>
+      <name>Tomitribe Release Distribution Repository</name>
+      <url>https://repository.tomitribe.com/service/local/staging/deploy/maven2</url>
+    </repository>
+
+    <snapshotRepository>
+      <id>tomitribe.snapshots.https</id>
+      <name>Tomitribe Development Snapshot Repository</name>
+      <url>https://repository.tomitribe.com/content/repositories/snapshots-tomitribe</url>
+    </snapshotRepository>
+  </distributionManagement>
 </project>
